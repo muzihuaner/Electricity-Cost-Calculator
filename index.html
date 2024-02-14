@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电费计算器</title>
+    <link href="https://gcore.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4 max-w-lg mt-10 bg-white shadow-lg rounded-lg">
+        <h1 class="text-2xl font-semibold text-gray-700 text-center mb-6">电费计算器</h1>
+        <div class="flex flex-col space-y-4">
+            <div class="flex items-center">
+                <label class="mr-2">设备功耗：</label>
+                <input id="power" type="number" min="0" step="1" class="border border-gray-300 px-2 py-1">
+                <span class="ml-2">W（瓦）</span>
+            </div>
+            <div class="flex items-center">
+                <label class="mr-2">每日使用时长：</label>
+                <input id="dailyUsage" type="number" min="0" step="1" class="border border-gray-300 px-2 py-1">
+                <span class="ml-2">小时</span>
+            </div>
+            <div class="flex items-center">
+                <label class="mr-2">电价：</label>
+                <input id="electricityPrice" type="number" min="0" step="0.01" class="border border-gray-300 px-2 py-1">
+                <span class="ml-2">元 / 度</span>
+            </div>
+            <div class="mt-4">
+                <button id="calculateBtn"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">计算</button>
+                <button id="clearBtn"
+                    class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">清除</button>
+            </div>
+
+            <div id="result" class="mt-4 hidden bg-gray-100 p-4 rounded">
+                <p class="text-lg font-semibold mb-2">电费计算结果：</p>
+                <div class="flex flex-col space-y-2">
+                    <p>每日电费：<span id="dailyCost" class="text-blue-500 font-bold"></span> 元</p>
+                    <p>每周电费：<span id="weeklyCost" class="text-blue-500 font-bold"></span> 元</p>
+                    <p>每月电费：<span id="monthlyCost" class="text-blue-500 font-bold"></span> 元</p>
+                    <p>每年电费：<span id="annualCost" class="text-blue-500 font-bold"></span> 元</p>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="tabinfo">
+                    <h3>功能说明</h3>
+                </div>
+                <div class="tabinfonote">
+                    <div class="pinfo">
+
+                        <li>我国电费常用的计量单位为千瓦小时（kw·h），也就是常说的1度电。功率为1千瓦的用电设备，运转1小时所耗用的电能，即为1千瓦小时或1度电的用电量。比如，一只功率100瓦的电器用1个小时，其耗电为0.1度，当使用10小时才耗电1千瓦小时或1度电。
+                        </li>
+                        <li>
+                            目前我国电费收费标准各地不一。你可以根据你的实际电费单价进行修改。 想知道你当地电价可以在搜索引擎搜索 <b>省份+电价</b>
+                        </li>
+
+                        <li> 计算结果为估算值，仅供参考。让我们一起节约能源，爱护环境！</li>
+                    </div>
+                </div>
+            </div>
+            <p>电力成本 =（额定功率（千瓦）* 使用时间（小时）* 每千瓦时电费）</p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', function () {
+            var power = parseInt(document.getElementById('power').value);
+            var dailyUsage = parseInt(document.getElementById('dailyUsage').value);
+            var electricityPrice = parseFloat(document.getElementById('electricityPrice').value);
+
+            var dailyCost = power * dailyUsage * electricityPrice / 1000;
+            var weeklyCost = dailyCost * 7;
+            var monthlyCost = dailyCost * 30;
+            var annualCost = dailyCost * 365;
+
+            document.getElementById('dailyCost').textContent = dailyCost.toFixed(2);
+            document.getElementById('weeklyCost').textContent = weeklyCost.toFixed(2);
+            document.getElementById('monthlyCost').textContent = monthlyCost.toFixed(2);
+            document.getElementById('annualCost').textContent = annualCost.toFixed(2);
+
+            document.getElementById('result').classList.remove('hidden');
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            document.getElementById('power').value = '';
+            document.getElementById('dailyUsage').value = '';
+            document.getElementById('electricityPrice').value = '';
+            document.getElementById('dailyCost').textContent = '';
+            document.getElementById('weeklyCost').textContent = '';
+            document.getElementById('monthlyCost').textContent = '';
+            document.getElementById('annualCost').textContent = '';
+            document.getElementById('result').classList.add('hidden');
+          });
+    </script>
+    <style>
+        .tabinfonote .pinfo {
+            padding: 10px 20px 10px 20px;
+            text-align: left;
+            font-size: 14px;
+            line-height: 24px;
+        }
+    </style>
+</body>
+
+</html>
